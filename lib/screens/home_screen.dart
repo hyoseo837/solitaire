@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     return Column(
       children: [
         Flexible(
-          flex: 1,
+          flex: 5,
           child: Container(
             decoration: const BoxDecoration(color: Colors.red),
             child: Row(
@@ -43,10 +43,11 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         Flexible(
-          flex: 3,
+          flex: 15,
           child: Container(
             decoration: const BoxDecoration(color: Colors.green),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: const [CardHolder()],
@@ -76,6 +77,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
+        Flexible(
+            flex: 1,
+            child: Container(
+              decoration: const BoxDecoration(color: Colors.grey),
+            ))
       ],
     );
   }
