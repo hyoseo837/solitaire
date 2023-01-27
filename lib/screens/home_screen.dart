@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:solitaire/widgets/card.dart';
 import 'package:solitaire/widgets/card_holder.dart';
 import 'package:solitaire/widgets/deck_holder.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
 
+  List<List<PlayingCard>> decks = [[], [], [], [], [], [], [], []];
+  List<PlayingCard> holders = [];
+  List<PlayingCard> targetholders = [];
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
