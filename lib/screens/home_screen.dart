@@ -36,13 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         IconButton(
                             onPressed: (() {}),
-                            icon: const Icon(Icons.diamond_outlined)),
+                            icon: const Icon(
+                              Icons.diamond,
+                              size: 17,
+                            )),
                         IconButton(
                             onPressed: (() {}),
-                            icon: const Icon(Icons.agriculture_outlined)),
+                            icon: const Icon(
+                              Icons.agriculture,
+                              size: 17,
+                            )),
                         IconButton(
                             onPressed: (() {}),
-                            icon: const Icon(Icons.account_balance_outlined))
+                            icon: const Icon(
+                              Icons.account_balance,
+                              size: 17,
+                            ))
                       ],
                     ),
                     const SizedBox(width: 30),
@@ -90,23 +99,25 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Flexible(
-              flex: 3,
-              child: Container(
-                height: 60,
-                decoration: const BoxDecoration(color: Color(0xff2f2f2f)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.refresh_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        ))
-                  ],
-                ),
-              ))
+            flex: 3,
+            child: Container(
+              height: 60,
+              decoration: const BoxDecoration(color: Color(0xff2f2f2f)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.refresh_rounded,
+                      color: Colors.white,
+                      size: 15,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

@@ -12,10 +12,6 @@ class DeckHolder extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           color: Colors.grey,
         ),
-        child: const SizedBox(
-          width: 100,
-          height: 200,
-        ),
       ),
     );
   }

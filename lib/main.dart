@@ -12,7 +12,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: HomeScreen(),
+        body: Container(
+          decoration: const BoxDecoration(color: Colors.black),
+          child: Center(
+            child: SizedBox(
+              height: 400,
+              width: 750,
+              child: HomeScreen(),
+            ),
+          ),
+        ),
       ),
     );
   }
