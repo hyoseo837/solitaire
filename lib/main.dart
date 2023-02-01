@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(color: Colors.black),
-          child: Center(
+          child: const Center(
             child: SizedBox(
               height: 400,
               width: 750,

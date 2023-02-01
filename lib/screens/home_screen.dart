@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:solitaire/widgets/card.dart';
+import 'package:solitaire/widgets/card_base.dart';
+import 'package:solitaire/widgets/card_empty.dart';
 import 'package:solitaire/widgets/card_holder.dart';
 import 'package:solitaire/widgets/deck_holder.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
-
-  List<List<PlayingCard>> decks = [[], [], [], [], [], [], [], []];
-  List<PlayingCard> holders = [];
-  List<PlayingCard> targetholders = [];
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<List<CardBase>> decks = [[], [], [], [], [], [], [], []];
+  List<CardBase> holders = [
+    const CardEmpty(),
+    const CardEmpty(),
+    const CardEmpty(),
+  ];
+  List<CardBase> targetholders = [
+    const CardEmpty(),
+    const CardEmpty(),
+    const CardEmpty(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,9 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CardHolder(),
-                    const CardHolder(),
-                    const CardHolder(),
+                    for (var holder in holders) holder,
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -57,9 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(width: 30),
                     const DeckHolder(),
                     const SizedBox(width: 30),
-                    const CardHolder(),
-                    const CardHolder(),
-                    const CardHolder(),
+                    for (var targetholder in targetholders) targetholder
                   ]),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:solitaire/widgets/card_base.dart';
 
-class PlayingCard extends StatelessWidget {
+class PlayingCard extends CardBase {
   final String shape;
   final int number;
   int order, deck;

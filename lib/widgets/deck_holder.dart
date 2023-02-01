@@ -8,8 +8,10 @@ class DeckHolder extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
+        width: 45,
+        height: 80,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(3),
           color: Colors.grey,
         ),
       ),
