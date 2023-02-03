@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:solitaire/widgets/card_unit.dart';
 import 'package:solitaire/widgets/card_base.dart';
 import 'package:solitaire/widgets/card_empty.dart';
-import 'package:solitaire/widgets/card_holder.dart';
 import 'package:solitaire/widgets/deck_holder.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +14,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<List<CardBase>> decks = [[], [], [], [], [], [], [], []];
   List<CardBase> holders = [
-    const CardEmpty(),
+    const CardUnit(
+      shape: "a",
+      number: 1,
+      idCode: 0,
+    ),
     const CardEmpty(),
     const CardEmpty(),
   ];
@@ -74,30 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: const [CardHolder()],
-                  ),
-                  Column(
-                    children: const [CardHolder()],
-                  ),
-                  Column(
-                    children: const [CardHolder()],
-                  ),
-                  Column(
-                    children: const [CardHolder()],
-                  ),
-                  Column(
-                    children: const [CardHolder()],
-                  ),
-                  Column(
-                    children: const [CardHolder()],
-                  ),
-                  Column(
-                    children: const [CardHolder()],
-                  ),
-                  Column(
-                    children: const [CardHolder()],
-                  ),
+                  for (var deck in decks)
+                    for (var card in deck) card
                 ],
               ),
             ),

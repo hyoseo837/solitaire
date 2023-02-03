@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:solitaire/widgets/card_base.dart';
 
-class PlayingCard extends CardBase {
+class CardUnit extends CardBase {
   final String shape;
   final int number;
-  int order, deck;
+  final int idCode;
 
-  PlayingCard({
-    super.key,
-    required this.shape,
-    required this.number,
-    required this.order,
-    required this.deck,
-  });
+  const CardUnit(
+      {super.key,
+      required this.shape,
+      required this.number,
+      required this.idCode});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
-      height: 200,
+      width: 45,
+      height: 80,
       child: Container(
         decoration: const BoxDecoration(
             color: Colors.white,
