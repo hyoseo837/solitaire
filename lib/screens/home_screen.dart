@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:solitaire/widgets/card_unit.dart';
 import 'package:solitaire/widgets/card_base.dart';
 import 'package:solitaire/widgets/card_empty.dart';
 import 'package:solitaire/widgets/deck_holder.dart';
+
+import '../functions/reset_game.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,11 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<List<CardBase>> decks = [[], [], [], [], [], [], [], []];
   List<CardBase> holders = [
-    const CardUnit(
-      shape: "a",
-      number: 1,
-      idCode: 0,
-    ),
+    const CardEmpty(),
     const CardEmpty(),
     const CardEmpty(),
   ];
@@ -33,8 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: const BoxDecoration(color: Colors.green),
       child: Column(
         children: [
-          Flexible(
-            flex: 13,
+          SizedBox(
+            height: 120,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50),
               child: Row(
@@ -71,29 +68,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]),
             ),
           ),
-          Flexible(
-            flex: 27,
+          SizedBox(
+            height: 253,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var deck in decks)
-                    for (var card in deck) card
+                    Stack(
+                      children: [
+                        for (var i = 0; i < deck.length; i++)
+                          Transform.translate(
+                              offset: Offset(0, i * 20), child: deck[i])
+                      ],
+                    )
                 ],
               ),
             ),
           ),
-          Flexible(
-            flex: 3,
+          SizedBox(
             child: Container(
-              height: 60,
+              height: 27,
               decoration: const BoxDecoration(color: Color(0xff2f2f2f)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        decks = resetGame();
+                      });
+                    },
                     icon: const Icon(
                       Icons.refresh_rounded,
                       color: Colors.white,
