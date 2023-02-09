@@ -16,16 +16,16 @@ List<CardUnit> fullDeck() {
   int id = 0;
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 9; j++) {
-      deck.add(CardNumber(j, shapeList[i], id, 0));
+      deck.add(CardNumber(j, shapeList[i], idCode: id, typeCode: 0));
       id++;
     }
   }
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 4; j++) {
-      deck.add(CardShape(i, id, 1));
+      deck.add(CardShape(i, idCode: id, typeCode: 1));
       id++;
     }
   }
-  deck.add(CardBonus(id, 2));
+  deck.add(CardBonus(idCode: id, typeCode: 2));
   return deck;
 }

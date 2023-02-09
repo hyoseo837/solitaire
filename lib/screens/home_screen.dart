@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:solitaire/widgets/card_base.dart';
 import 'package:solitaire/widgets/card_empty.dart';
-import 'package:solitaire/widgets/deck_holder.dart';
 
 import '../functions/reset_game.dart';
 
@@ -62,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     const SizedBox(width: 30),
-                    const DeckHolder(),
+                    const CardEmpty(),
                     const SizedBox(width: 30),
                     for (var targetholder in targetholders) targetholder
                   ]),
