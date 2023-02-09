@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:solitaire/widgets/card_base.dart';
 import 'package:solitaire/widgets/card_empty.dart';
 
+import '../functions/constants.dart';
 import '../functions/reset_game.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,24 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        IconButton(
-                            onPressed: (() {}),
-                            icon: const Icon(
-                              Icons.diamond,
-                              size: 17,
-                            )),
-                        IconButton(
-                            onPressed: (() {}),
-                            icon: const Icon(
-                              Icons.agriculture,
-                              size: 17,
-                            )),
-                        IconButton(
-                            onPressed: (() {}),
-                            icon: const Icon(
-                              Icons.account_balance,
-                              size: 17,
-                            ))
+                        for (var shape in shapes)
+                          IconButton(
+                              onPressed: (() {}), icon: Icon(shape, size: 17)),
                       ],
                     ),
                     const SizedBox(width: 30),
@@ -78,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   for (var deck in decks)
                     Stack(
                       children: [
+                        const SizedBox(height: 1000),
                         for (var i = 0; i < deck.length; i++)
                           Transform.translate(
                               offset: Offset(0, i * 20), child: deck[i])

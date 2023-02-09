@@ -11,8 +11,8 @@ class _CardBaseState extends State<CardBase> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 45,
-      height: 80,
+      width: 55,
+      height: 100,
       decoration: BoxDecoration(
         color: Colors.black,
         border: Border.all(

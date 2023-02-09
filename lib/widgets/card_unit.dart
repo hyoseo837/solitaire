@@ -27,12 +27,12 @@ class _CardUnitState extends State<CardUnit> {
         });
       }),
       child: SizedBox(
-        width: 45,
-        height: 80,
+        width: 55,
+        height: 100,
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: borderColor, width: 2),
+              border: Border.all(color: borderColor, width: 1),
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Text(
             widget.idCode.toString(),

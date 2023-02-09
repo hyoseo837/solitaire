@@ -16,7 +16,7 @@ List<CardUnit> fullDeck() {
   int id = 0;
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 9; j++) {
-      deck.add(CardNumber(j, shapeList[i], idCode: id, typeCode: 0));
+      deck.add(CardNumber(number: j, colorIndex: i, idCode: id, typeCode: 0));
       id++;
     }
   }
