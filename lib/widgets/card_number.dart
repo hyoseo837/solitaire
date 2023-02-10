@@ -13,32 +13,23 @@ class CardNumber extends CardUnit {
   });
 
   @override
-  State<CardNumber> createState() => _CardNumberState();
+  State<CardUnit> createState() => _CardNumberState();
 }
 
-class _CardNumberState extends State<CardNumber> {
+class _CardNumberState extends CardUnitState<CardNumber> {
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (details) {},
-      onTapUp: (details) {},
-      child: SizedBox(
-        width: 55,
-        height: 100,
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.black, width: 1),
-              borderRadius: const BorderRadius.all(Radius.circular(10))),
-          child: Text(
-            widget.number.toString(),
-            style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w900,
-                color: colorSet[widget.colorIndex]),
-          ),
-        ),
-      ),
+  Container cardDesign() {
+    return Container(
+      child: Column(children: [
+        Row(
+          children: [
+            Text(
+              widget.number.toString(),
+              style: TextStyle(color: colorSet[widget.colorIndex]),
+            )
+          ],
+        )
+      ]),
     );
   }
 }

@@ -7,10 +7,10 @@ class CardUnit extends CardBase {
   const CardUnit({super.key, required this.idCode, required this.typeCode});
 
   @override
-  State<CardUnit> createState() => _CardUnitState();
+  State<CardUnit> createState() => CardUnitState();
 }
 
-class _CardUnitState extends State<CardUnit> {
+class CardUnitState<T extends CardUnit> extends State<T> {
   Color borderColor = Colors.black;
 
   @override
@@ -34,11 +34,17 @@ class _CardUnitState extends State<CardUnit> {
               color: Colors.white,
               border: Border.all(color: borderColor, width: 1),
               borderRadius: const BorderRadius.all(Radius.circular(10))),
-          child: Text(
-            widget.idCode.toString(),
-            style: const TextStyle(fontSize: 10),
-          ),
+          child: cardDesign(),
         ),
+      ),
+    );
+  }
+
+  Container cardDesign() {
+    return Container(
+      child: Text(
+        widget.idCode.toString(),
+        style: const TextStyle(fontSize: 10),
       ),
     );
   }

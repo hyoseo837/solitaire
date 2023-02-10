@@ -12,17 +12,16 @@ List<CardUnit> fullDeckMixed() {
 
 List<CardUnit> fullDeck() {
   List<CardUnit> deck = [];
-  const shapeList = ["a", "b", "c"];
   int id = 0;
   for (var i = 0; i < 3; i++) {
-    for (var j = 0; j < 9; j++) {
+    for (var j = 1; j < 10; j++) {
       deck.add(CardNumber(number: j, colorIndex: i, idCode: id, typeCode: 0));
       id++;
     }
   }
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 4; j++) {
-      deck.add(CardShape(i, idCode: id, typeCode: 1));
+      deck.add(CardShape(shapeId: i, idCode: id, typeCode: 1));
       id++;
     }
   }
