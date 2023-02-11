@@ -37,7 +37,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    for (var holder in holders) holder,
+                    for (var holderIndex = 0; holderIndex < 3; holderIndex++)
+                      DragTarget(builder: ((BuildContext context,
+                          List<dynamic> candidateData,
+                          List<dynamic> rejectedData) {
+                        return holders[holderIndex];
+                      }), onAccept: ((List<dynamic> data) {
+                        setState(() {
+                          holders[holderIndex] = data[0];
+                          decks[data[1]].removeLast();
+                        });
+                      })),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -85,6 +95,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       setState(() {
                         decks = resetGame();
+                        holders = [
+                          const CardEmpty(),
+                          const CardEmpty(),
+                          const CardEmpty(),
+                        ];
+                        targetholders = [
+                          const CardEmpty(),
+                          const CardEmpty(),
+                          const CardEmpty(),
+                        ];
                       });
                     },
                     icon: const Icon(

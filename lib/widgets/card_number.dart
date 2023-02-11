@@ -25,7 +25,8 @@ class _CardNumberState extends CardUnitState<CardNumber> {
           children: [
             Text(
               widget.number.toString(),
-              style: TextStyle(color: colorSet[widget.colorIndex]),
+              style:
+                  TextStyle(fontSize: 20, color: colorSet[widget.colorIndex]),
             )
           ],
         )
