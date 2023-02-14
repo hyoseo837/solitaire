@@ -1,8 +1,7 @@
-import 'package:solitaire/widgets/card_bounus.dart';
-import 'package:solitaire/widgets/card_shape.dart';
-
-import '../widgets/card_number.dart';
-import '../widgets/card_unit.dart';
+import '../widgets/cards/card_bounus.dart';
+import '../widgets/cards/card_number.dart';
+import '../widgets/cards/card_shape.dart';
+import '../widgets/cards/card_unit.dart';
 
 List<CardUnit> fullDeckMixed() {
   List<CardUnit> result = fullDeck();
@@ -15,7 +14,12 @@ List<CardUnit> fullDeck() {
   int id = 0;
   for (var i = 0; i < 3; i++) {
     for (var j = 1; j < 10; j++) {
-      deck.add(CardNumber(number: j, colorIndex: i, idCode: id, typeCode: 0));
+      deck.add(CardNumber(
+        number: j,
+        colorIndex: i,
+        idCode: id,
+        typeCode: 0,
+      ));
       id++;
     }
   }

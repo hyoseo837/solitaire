@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solitaire/functions/constants.dart';
-import 'package:solitaire/widgets/card_unit.dart';
+
+import 'card_unit.dart';
 
 class CardNumber extends CardUnit {
   final int number, colorIndex;

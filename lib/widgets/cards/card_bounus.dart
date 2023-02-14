@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:solitaire/widgets/card_unit.dart';
+
+import 'card_unit.dart';
 
 class CardBonus extends CardUnit {
   const CardBonus({

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:solitaire/widgets/card_base.dart';
-import 'package:solitaire/widgets/card_empty.dart';
+import 'package:solitaire/functions/full_deck.dart';
+import 'package:solitaire/widgets/cards/card_base.dart';
+import 'package:solitaire/widgets/holders/card_holder.dart';
+import 'package:solitaire/widgets/holders/one_card_holder.dart';
 
 import '../functions/constants.dart';
-import '../functions/reset_game.dart';
+import '../widgets/cards/card_empty.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,11 +15,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<List<CardBase>> decks = [[], [], [], [], [], [], [], []];
-  List<CardBase> holders = [
-    const CardEmpty(),
-    const CardEmpty(),
-    const CardEmpty(),
+  List<CardHolder> decks = [
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+  ];
+  List<OneCardHolder> holders = [
+    OneCardHolder(typecode: 0, idcode: 0),
+    OneCardHolder(typecode: 0, idcode: 1),
+    OneCardHolder(typecode: 0, idcode: 2),
   ];
   List<CardBase> targetholders = [
     const CardEmpty(),
@@ -45,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       }), onAccept: ((List<dynamic> data) {
                         setState(() {
                           holders[holderIndex] = data[0];
-                          decks[data[1]].removeLast();
                         });
                       })),
                     Column(
@@ -70,17 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (var deck in decks)
-                    Stack(
-                      children: [
-                        const SizedBox(height: 1000),
-                        for (var i = 0; i < deck.length; i++)
-                          Transform.translate(
-                              offset: Offset(0, i * 20), child: deck[i])
-                      ],
-                    )
-                ],
+                children: [for (var deck in decks) deck],
               ),
             ),
           ),
@@ -94,11 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        decks = resetGame();
+                        decks = resetGame2();
                         holders = [
-                          const CardEmpty(),
-                          const CardEmpty(),
-                          const CardEmpty(),
+                          OneCardHolder(typecode: 0, idcode: 0),
+                          OneCardHolder(typecode: 0, idcode: 0),
+                          OneCardHolder(typecode: 0, idcode: 0),
                         ];
                         targetholders = [
                           const CardEmpty(),
@@ -121,4 +121,28 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+List<CardHolder> resetGame2() {
+  List<CardHolder> result = [
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+    CardHolder(typecode: 1),
+  ];
+
+  var newdeck = fullDeckMixed();
+  var cnt = 0;
+  for (var card in newdeck) {
+    result[cnt].addCard(card);
+    cnt += 1;
+    if (cnt == 8) {
+      cnt -= 8;
+    }
+  }
+  return result;
 }
