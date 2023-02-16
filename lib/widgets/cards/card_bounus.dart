@@ -6,7 +6,7 @@ class CardBonus extends CardUnit {
   const CardBonus({
     super.key,
     required super.idCode,
-    required super.typeCode,
+    super.typeCode = 3,
   });
 
   @override

@@ -8,7 +8,6 @@ class OneCardHolder extends CardHolder {
 
   OneCardHolder({
     super.key,
-    required super.typecode,
     required this.idcode,
   });
 

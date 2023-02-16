@@ -8,7 +8,7 @@ class CardShape extends CardUnit {
   const CardShape({
     super.key,
     required super.idCode,
-    required super.typeCode,
+    super.typeCode = 2,
     required this.shapeId,
   });
 

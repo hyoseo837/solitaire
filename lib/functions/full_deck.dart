@@ -18,17 +18,16 @@ List<CardUnit> fullDeck() {
         number: j,
         colorIndex: i,
         idCode: id,
-        typeCode: 0,
       ));
       id++;
     }
   }
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 4; j++) {
-      deck.add(CardShape(shapeId: i, idCode: id, typeCode: 1));
+      deck.add(CardShape(shapeId: i, idCode: id));
       id++;
     }
   }
-  deck.add(CardBonus(idCode: id, typeCode: 2));
+  deck.add(CardBonus(idCode: id));
   return deck;
 }

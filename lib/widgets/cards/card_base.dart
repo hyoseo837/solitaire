@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CardBase extends StatefulWidget {
-  const CardBase({super.key});
+  final int typeCode;
+  const CardBase({super.key, required this.typeCode});
 
   @override
   State<CardBase> createState() => CardBaseState();

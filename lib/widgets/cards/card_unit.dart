@@ -3,11 +3,10 @@ import 'package:solitaire/widgets/cards/card_base.dart';
 
 class CardUnit extends CardBase {
   final int idCode;
-  final int typeCode;
   const CardUnit({
     super.key,
     required this.idCode,
-    required this.typeCode,
+    required super.typeCode,
   });
 
   @override

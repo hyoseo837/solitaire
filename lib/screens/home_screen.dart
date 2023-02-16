@@ -16,19 +16,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<CardHolder> decks = [
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
   ];
   List<OneCardHolder> holders = [
-    OneCardHolder(typecode: 0, idcode: 0),
-    OneCardHolder(typecode: 0, idcode: 1),
-    OneCardHolder(typecode: 0, idcode: 2),
+    OneCardHolder(idcode: 0),
+    OneCardHolder(idcode: 1),
+    OneCardHolder(idcode: 2),
   ];
   List<CardBase> targetholders = [
     const CardEmpty(),
@@ -96,9 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       setState(() {
                         decks = resetGame2();
                         holders = [
-                          OneCardHolder(typecode: 0, idcode: 0),
-                          OneCardHolder(typecode: 0, idcode: 0),
-                          OneCardHolder(typecode: 0, idcode: 0),
+                          OneCardHolder(idcode: 0),
+                          OneCardHolder(idcode: 0),
+                          OneCardHolder(idcode: 0),
                         ];
                         targetholders = [
                           const CardEmpty(),
@@ -125,14 +125,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
 List<CardHolder> resetGame2() {
   List<CardHolder> result = [
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
-    CardHolder(typecode: 1),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
+    CardHolder(),
   ];
 
   var newdeck = fullDeckMixed();

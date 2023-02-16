@@ -5,10 +5,9 @@ import 'package:solitaire/widgets/cards/card_empty.dart';
 import '../cards/card_unit.dart';
 
 class CardHolder extends StatefulWidget {
-  final int typecode;
   List<CardBase> cardList = [const CardEmpty()];
   List<bool> areDraggable = [false];
-  CardHolder({super.key, required this.typecode});
+  CardHolder({super.key});
 
   void addCard(CardUnit value) {
     if (cardList.last.runtimeType == const CardEmpty().runtimeType) {
@@ -43,6 +42,22 @@ class CardHolder extends StatefulWidget {
 class CardHolderState<T extends CardHolder> extends State<T> {
   @override
   Widget build(BuildContext context) {
+    return widget.cardList[widget.cardList.length - 1].typeCode == 1
+        ? DragTarget(
+            builder: ((BuildContext context, List<dynamic> candidateData,
+                List<dynamic> rejectedData) {
+              return holderStack();
+            }),
+            onAccept: (CardUnit data) {
+              setState(() {
+                widget.addCard(data);
+              });
+            },
+          )
+        : holderStack();
+  }
+
+  Stack holderStack() {
     return Stack(
       children: [
         const SizedBox(height: 1000),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'card_base.dart';
 
 class CardEmpty extends CardBase {
-  const CardEmpty({super.key});
+  const CardEmpty({super.key, super.typeCode = 0});
 
   @override
   State<CardEmpty> createState() => _CardEmptyState();

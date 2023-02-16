@@ -8,7 +8,7 @@ class CardNumber extends CardUnit {
   const CardNumber({
     super.key,
     required super.idCode,
-    required super.typeCode,
+    super.typeCode = 1,
     required this.number,
     required this.colorIndex,
   });
