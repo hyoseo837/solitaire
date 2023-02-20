@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:solitaire/widgets/cards/card_base.dart';
+import 'package:solitaire/widgets/cards/card_column.dart';
 import 'package:solitaire/widgets/cards/card_empty.dart';
 import 'package:solitaire/widgets/cards/card_number.dart';
 
@@ -16,7 +17,7 @@ class CardHolder extends StatefulWidget {
       areDraggable[cardList.length - 1] = true;
     } else {
       cardList.add(value);
-      areDraggable[areDraggable.length - 1] = false;
+      // areDraggable[areDraggable.length - 1] = false;
       areDraggable.add(true);
     }
   }
@@ -44,16 +45,16 @@ class CardHolderState<T extends CardHolder> extends State<T> {
   @override
   Widget build(BuildContext context) {
     return widget.cardList[widget.cardList.length - 1].typeCode == 1
-        ? DragTarget<CardUnit>(
+        ? DragTarget<List<CardUnit>>(
             builder: ((BuildContext context, List<dynamic> candidateData,
                 List<dynamic> rejectedData) {
               return holderStack();
             }),
             onWillAccept: (data) {
-              if (data?.typeCode == 1) {
+              if (data?.first.typeCode == 1) {
+                final CardNumber dataFirstCard = data?.first as CardNumber;
                 final CardNumber holderLastCard =
                     widget.cardList.cast<CardNumber>().last;
-                final CardNumber dataFirstCard = data as CardNumber;
                 if (holderLastCard.colorIndex == dataFirstCard.colorIndex) {
                   print("wrong color");
                   return false;
@@ -69,9 +70,12 @@ class CardHolderState<T extends CardHolder> extends State<T> {
                 return false;
               }
             },
-            onAccept: (CardUnit data) {
+            onAccept: (List<CardUnit> data) {
               setState(() {
-                widget.addCard(data);
+                for (var i in data) {
+                  print(data);
+                  widget.addCard(i);
+                }
               });
             },
           )
@@ -87,13 +91,14 @@ class CardHolderState<T extends CardHolder> extends State<T> {
             offset: Offset(0, i * 20),
             child: widget.areDraggable[i]
                 ? Draggable(
-                    data: widget.cardList[i],
-                    feedback: widget.cardList[i],
+                    data: widget.cardList.sublist(i) as List<CardUnit>,
+                    feedback: CardColumn(
+                        cards: widget.cardList.sublist(i).cast<CardNumber>()),
                     childWhenDragging: Container(),
                     child: widget.cardList[i],
                     onDragCompleted: () {
                       setState(() {
-                        widget.removeCard(1);
+                        widget.removeCard(i);
                       });
                     },
                   )
