@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:solitaire/widgets/cards/card_column.dart';
 import 'package:solitaire/widgets/cards/card_empty.dart';
 import 'package:solitaire/widgets/cards/card_number.dart';
+import 'package:solitaire/widgets/cards/card_shape.dart';
 
 import '../cards/card_unit.dart';
 
@@ -9,6 +10,19 @@ class CardHolder extends StatefulWidget {
   List<CardUnit> cardList = [];
   int attatchedCards = 0;
   CardHolder({super.key});
+
+  CardUnit lastCard() {
+    return cardList.last;
+  }
+
+  void gatherShape(int shapeId) {
+    if (cardList.last.typeCode == 2) {
+      CardShape tmp = cardList.last as CardShape;
+      if (tmp.shapeId == shapeId) {
+        removeCard(1);
+      }
+    }
+  }
 
   void addCard(List<CardUnit> value) {
     for (var i in value) {
@@ -54,8 +68,6 @@ class CardHolder extends StatefulWidget {
       }
     }
   }
-
-  void update() {}
 
   @override
   State<CardHolder> createState() => CardHolderState();
