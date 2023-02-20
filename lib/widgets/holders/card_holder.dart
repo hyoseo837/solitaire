@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:solitaire/widgets/cards/card_base.dart';
 import 'package:solitaire/widgets/cards/card_empty.dart';
+import 'package:solitaire/widgets/cards/card_number.dart';
 
 import '../cards/card_unit.dart';
 
@@ -43,11 +44,31 @@ class CardHolderState<T extends CardHolder> extends State<T> {
   @override
   Widget build(BuildContext context) {
     return widget.cardList[widget.cardList.length - 1].typeCode == 1
-        ? DragTarget(
+        ? DragTarget<CardUnit>(
             builder: ((BuildContext context, List<dynamic> candidateData,
                 List<dynamic> rejectedData) {
               return holderStack();
             }),
+            onWillAccept: (data) {
+              if (data?.typeCode == 1) {
+                final CardNumber holderLastCard =
+                    widget.cardList.cast<CardNumber>().last;
+                final CardNumber dataFirstCard = data as CardNumber;
+                if (holderLastCard.colorIndex == dataFirstCard.colorIndex) {
+                  // print("wrong color");
+                  return false;
+                }
+                if (holderLastCard.number - 1 == dataFirstCard.number) {
+                  return true;
+                } else {
+                  // print("wrong number");
+                  return false;
+                }
+              } else {
+                // print("wrong type");
+                return false;
+              }
+            },
             onAccept: (CardUnit data) {
               setState(() {
                 widget.addCard(data);
