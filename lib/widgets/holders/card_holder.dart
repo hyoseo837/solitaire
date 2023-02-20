@@ -55,17 +55,17 @@ class CardHolderState<T extends CardHolder> extends State<T> {
                     widget.cardList.cast<CardNumber>().last;
                 final CardNumber dataFirstCard = data as CardNumber;
                 if (holderLastCard.colorIndex == dataFirstCard.colorIndex) {
-                  // print("wrong color");
+                  print("wrong color");
                   return false;
                 }
                 if (holderLastCard.number - 1 == dataFirstCard.number) {
                   return true;
                 } else {
-                  // print("wrong number");
+                  print("wrong number");
                   return false;
                 }
               } else {
-                // print("wrong type");
+                print("wrong type");
                 return false;
               }
             },
