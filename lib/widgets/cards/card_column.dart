@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'card_number.dart';
+import 'card_unit.dart';
 
 class CardColumn extends StatelessWidget {
-  final List<CardNumber> cards;
+  final List<CardUnit> cards;
   const CardColumn({super.key, required this.cards});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
         for (var i = 0; i < cards.length; i++)
           Transform.translate(

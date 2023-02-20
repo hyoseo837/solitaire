@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:solitaire/widgets/cards/card_base.dart';
 import 'package:solitaire/widgets/cards/card_column.dart';
 import 'package:solitaire/widgets/cards/card_empty.dart';
 import 'package:solitaire/widgets/cards/card_number.dart';
@@ -7,31 +6,52 @@ import 'package:solitaire/widgets/cards/card_number.dart';
 import '../cards/card_unit.dart';
 
 class CardHolder extends StatefulWidget {
-  List<CardBase> cardList = [const CardEmpty()];
-  List<bool> areDraggable = [false];
+  List<CardUnit> cardList = [];
+  int attatchedCards = 0;
   CardHolder({super.key});
 
-  void addCard(CardUnit value) {
-    if (cardList.last.runtimeType == const CardEmpty().runtimeType) {
-      cardList[cardList.length - 1] = value;
-      areDraggable[cardList.length - 1] = true;
-    } else {
-      cardList.add(value);
-      // areDraggable[areDraggable.length - 1] = false;
-      areDraggable.add(true);
+  void addCard(List<CardUnit> value) {
+    for (var i in value) {
+      cardList.add(i);
+      attatchedCards += 1;
     }
   }
 
-  List<CardBase> removeCard(int n) {
-    List<CardBase> result = cardList.sublist(cardList.length - n);
-    if (cardList.length == 1) {
-      cardList = [const CardEmpty()];
-      areDraggable = [false];
-      return result;
-    } else {
-      cardList.removeRange(cardList.length - n, cardList.length);
-      areDraggable.removeRange(cardList.length - n, cardList.length);
-      return result;
+  void setCard(List<CardUnit> value) {
+    for (var i in value) {
+      cardList.add(i);
+    }
+  }
+
+  void removeCard(int n) {
+    cardList.removeRange(cardList.length - n, cardList.length);
+    attatchedCards -= n;
+    if (attatchedCards == 0 && cardList.isNotEmpty) {
+      attatchedCards = 1;
+    }
+    setupAttatched();
+  }
+
+  void setupAttatched() {
+    late CardNumber lastnum =
+        const CardNumber(idCode: 0, number: 0, colorIndex: 0);
+    for (var i in cardList) {
+      if (i.typeCode != 1) {
+        attatchedCards = 1;
+      } else {
+        CardNumber tmp = i as CardNumber;
+        if (lastnum.typeCode != 1) {
+          attatchedCards = 1;
+        } else {
+          if (lastnum.number - 1 == tmp.number &&
+              lastnum.colorIndex != tmp.colorIndex) {
+            attatchedCards += 1;
+          } else {
+            attatchedCards = 1;
+          }
+        }
+        lastnum = tmp;
+      }
     }
   }
 
@@ -44,42 +64,41 @@ class CardHolder extends StatefulWidget {
 class CardHolderState<T extends CardHolder> extends State<T> {
   @override
   Widget build(BuildContext context) {
-    return widget.cardList[widget.cardList.length - 1].typeCode == 1
-        ? DragTarget<List<CardUnit>>(
+    return widget.cardList.isEmpty
+        ? const CardEmpty()
+        : DragTarget<List<CardUnit>>(
             builder: ((BuildContext context, List<dynamic> candidateData,
                 List<dynamic> rejectedData) {
               return holderStack();
             }),
             onWillAccept: (data) {
-              if (data?.first.typeCode == 1) {
-                final CardNumber dataFirstCard = data?.first as CardNumber;
-                final CardNumber holderLastCard =
-                    widget.cardList.cast<CardNumber>().last;
-                if (holderLastCard.colorIndex == dataFirstCard.colorIndex) {
-                  print("wrong color");
-                  return false;
-                }
-                if (holderLastCard.number - 1 == dataFirstCard.number) {
-                  return true;
-                } else {
-                  print("wrong number");
-                  return false;
-                }
-              } else {
-                print("wrong type");
+              var dataFirstCard = data?.first;
+              var holderLastCard = widget.cardList.last;
+              if (dataFirstCard?.typeCode != 1 ||
+                  holderLastCard.typeCode != 1) {
+                // print("wrong type");
                 return false;
               }
+              CardNumber? dataFirstnumCard = data?.cast<CardNumber>().first;
+              CardNumber holderLastnumCard =
+                  widget.cardList.cast<CardNumber>().last;
+              if (dataFirstnumCard?.colorIndex ==
+                  holderLastnumCard.colorIndex) {
+                // print("wrong color");
+                return false;
+              }
+              if (dataFirstnumCard!.number + 1 != holderLastnumCard.number) {
+                // print("wrong number");
+                return false;
+              }
+              return true;
             },
             onAccept: (List<CardUnit> data) {
               setState(() {
-                for (var i in data) {
-                  print(data);
-                  widget.addCard(i);
-                }
+                widget.addCard(data);
               });
             },
-          )
-        : holderStack();
+          );
   }
 
   Stack holderStack() {
@@ -88,22 +107,20 @@ class CardHolderState<T extends CardHolder> extends State<T> {
         const SizedBox(height: 1000),
         for (var i = 0; i < widget.cardList.length; i++)
           Transform.translate(
-            offset: Offset(0, i * 20),
-            child: widget.areDraggable[i]
-                ? Draggable(
-                    data: widget.cardList.sublist(i) as List<CardUnit>,
-                    feedback: CardColumn(
-                        cards: widget.cardList.sublist(i).cast<CardNumber>()),
-                    childWhenDragging: Container(),
-                    child: widget.cardList[i],
-                    onDragCompleted: () {
-                      setState(() {
-                        widget.removeCard(i);
-                      });
-                    },
-                  )
-                : widget.cardList[i],
-          )
+              offset: Offset(0, i * 20),
+              child: i >= widget.cardList.length - widget.attatchedCards
+                  ? Draggable(
+                      data: widget.cardList.sublist(i),
+                      feedback: CardColumn(cards: widget.cardList.sublist(i)),
+                      childWhenDragging: Container(),
+                      child: widget.cardList[i],
+                      onDragCompleted: () {
+                        setState(() {
+                          widget.removeCard(widget.cardList.length - i);
+                        });
+                      },
+                    )
+                  : widget.cardList[i])
       ],
     );
   }

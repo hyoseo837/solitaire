@@ -6,6 +6,7 @@ import 'package:solitaire/widgets/holders/one_card_holder.dart';
 
 import '../functions/constants.dart';
 import '../widgets/cards/card_empty.dart';
+import '../widgets/holders/bounus_holder.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
     const CardEmpty(),
     const CardEmpty(),
   ];
+
+  BonusHolder bonusHolder = BonusHolder();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,16 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    for (var holderIndex = 0; holderIndex < 3; holderIndex++)
-                      DragTarget(builder: ((BuildContext context,
-                          List<dynamic> candidateData,
-                          List<dynamic> rejectedData) {
-                        return holders[holderIndex];
-                      }), onAccept: ((List<dynamic> data) {
-                        setState(() {
-                          holders[holderIndex] = data[0];
-                        });
-                      })),
+                    for (var i in holders) i,
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -94,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        decks = resetGame2();
+                        decks = resetGame();
                         holders = [
                           OneCardHolder(idcode: 0),
                           OneCardHolder(idcode: 0),
@@ -123,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-List<CardHolder> resetGame2() {
+List<CardHolder> resetGame() {
   List<CardHolder> result = [
     CardHolder(),
     CardHolder(),
@@ -138,11 +132,14 @@ List<CardHolder> resetGame2() {
   var newdeck = fullDeckMixed();
   var cnt = 0;
   for (var card in newdeck) {
-    result[cnt].addCard(card);
+    result[cnt].setCard([card]);
     cnt += 1;
     if (cnt == 8) {
       cnt -= 8;
     }
+  }
+  for (var i in result) {
+    i.setupAttatched();
   }
   return result;
 }
