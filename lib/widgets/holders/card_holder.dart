@@ -6,10 +6,17 @@ import 'package:solitaire/widgets/cards/card_shape.dart';
 
 import '../cards/card_unit.dart';
 
-class CardHolder extends StatefulWidget {
+class CardHolder extends StatelessWidget {
   List<CardUnit> cardList = [];
   int attatchedCards = 0;
-  CardHolder({super.key});
+  bool active;
+  final ValueChanged<bool> onChanged;
+
+  CardHolder({super.key, this.active = false, required this.onChanged});
+
+  void handleTap() {
+    onChanged(!active);
+  }
 
   CardUnit lastCard() {
     return cardList.last;
@@ -70,13 +77,8 @@ class CardHolder extends StatefulWidget {
   }
 
   @override
-  State<CardHolder> createState() => CardHolderState();
-}
-
-class CardHolderState<T extends CardHolder> extends State<T> {
-  @override
   Widget build(BuildContext context) {
-    return widget.cardList.isEmpty
+    return cardList.isEmpty
         ? const CardEmpty()
         : DragTarget<List<CardUnit>>(
             builder: ((BuildContext context, List<dynamic> candidateData,
@@ -85,15 +87,14 @@ class CardHolderState<T extends CardHolder> extends State<T> {
             }),
             onWillAccept: (data) {
               var dataFirstCard = data?.first;
-              var holderLastCard = widget.cardList.last;
+              var holderLastCard = cardList.last;
               if (dataFirstCard?.typeCode != 1 ||
                   holderLastCard.typeCode != 1) {
                 // print("wrong type");
                 return false;
               }
               CardNumber? dataFirstnumCard = data?.cast<CardNumber>().first;
-              CardNumber holderLastnumCard =
-                  widget.cardList.cast<CardNumber>().last;
+              CardNumber holderLastnumCard = cardList.cast<CardNumber>().last;
               if (dataFirstnumCard?.colorIndex ==
                   holderLastnumCard.colorIndex) {
                 // print("wrong color");
@@ -106,9 +107,8 @@ class CardHolderState<T extends CardHolder> extends State<T> {
               return true;
             },
             onAccept: (List<CardUnit> data) {
-              setState(() {
-                widget.addCard(data);
-              });
+              addCard(data);
+              handleTap();
             },
           );
   }
@@ -117,22 +117,21 @@ class CardHolderState<T extends CardHolder> extends State<T> {
     return Stack(
       children: [
         const SizedBox(height: 1000),
-        for (var i = 0; i < widget.cardList.length; i++)
+        for (var i = 0; i < cardList.length; i++)
           Transform.translate(
               offset: Offset(0, i * 20),
-              child: i >= widget.cardList.length - widget.attatchedCards
+              child: i >= cardList.length - attatchedCards
                   ? Draggable(
-                      data: widget.cardList.sublist(i),
-                      feedback: CardColumn(cards: widget.cardList.sublist(i)),
+                      data: cardList.sublist(i),
+                      feedback: CardColumn(cards: cardList.sublist(i)),
                       childWhenDragging: Container(),
-                      child: widget.cardList[i],
+                      child: cardList[i],
                       onDragCompleted: () {
-                        setState(() {
-                          widget.removeCard(widget.cardList.length - i);
-                        });
+                        removeCard(cardList.length - i);
+                        handleTap();
                       },
                     )
-                  : widget.cardList[i])
+                  : cardList[i])
       ],
     );
   }

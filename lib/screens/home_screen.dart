@@ -17,29 +17,173 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<CardHolder> decks = [
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
+  List<bool> holderActiveList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
   ];
-  List<OneCardHolder> holders = [
-    OneCardHolder(idcode: 0),
-    OneCardHolder(idcode: 1),
-    OneCardHolder(idcode: 2),
+  List<bool> oneActiveList = [
+    false,
+    false,
+    false,
   ];
-  List<CardBase> targetholders = [
+  bool bonusActive = false;
+
+  void _handleChanged(bool yes) {
+    for (var i in holderActiveList) {
+      setState(() {
+        i != i;
+      });
+    }
+    for (var i in oneActiveList) {
+      setState(() {
+        i != i;
+      });
+    }
+    setState(() {
+      bonusActive != bonusActive;
+    });
+  }
+
+  void _handleHolderChanged0(bool newValue) {
+    setState(() {
+      holderActiveList[0] = newValue;
+    });
+  }
+
+  void _handleHolderChanged1(bool newValue) {
+    setState(() {
+      holderActiveList[1] = newValue;
+    });
+  }
+
+  void _handleHolderChanged2(bool newValue) {
+    setState(() {
+      holderActiveList[2] = newValue;
+    });
+  }
+
+  void _handleHolderChanged3(bool newValue) {
+    setState(() {
+      holderActiveList[3] = newValue;
+    });
+  }
+
+  void _handleHolderChanged4(bool newValue) {
+    setState(() {
+      holderActiveList[4] = newValue;
+    });
+  }
+
+  void _handleHolderChanged5(bool newValue) {
+    setState(() {
+      holderActiveList[5] = newValue;
+    });
+  }
+
+  void _handleHolderChanged6(bool newValue) {
+    setState(() {
+      holderActiveList[6] = newValue;
+    });
+  }
+
+  void _handleHolderChanged7(bool newValue) {
+    setState(() {
+      holderActiveList[7] = newValue;
+    });
+  }
+
+  void _handleOneHolderChanged0(bool newValue) {
+    setState(() {
+      oneActiveList[0] = newValue;
+    });
+  }
+
+  void _handleOneHolderChanged1(bool newValue) {
+    setState(() {
+      oneActiveList[1] = newValue;
+    });
+  }
+
+  void _handleOneHolderChanged2(bool newValue) {
+    setState(() {
+      oneActiveList[2] = newValue;
+    });
+  }
+
+  void _handleBonusHolderChanged(bool newValue) {
+    setState(() {
+      bonusActive = newValue;
+    });
+  }
+
+  late List<CardHolder> decks = [
+    CardHolder(
+      active: holderActiveList[0],
+      onChanged: _handleChanged,
+    ),
+    CardHolder(
+      active: holderActiveList[1],
+      onChanged: _handleChanged,
+    ),
+    CardHolder(
+      active: holderActiveList[2],
+      onChanged: _handleChanged,
+    ),
+    CardHolder(
+      active: holderActiveList[3],
+      onChanged: _handleChanged,
+    ),
+    CardHolder(
+      active: holderActiveList[4],
+      onChanged: _handleChanged,
+    ),
+    CardHolder(
+      active: holderActiveList[5],
+      onChanged: _handleChanged,
+    ),
+    CardHolder(
+      active: holderActiveList[6],
+      onChanged: _handleChanged,
+    ),
+    CardHolder(
+      active: holderActiveList[7],
+      onChanged: _handleChanged,
+    ),
+  ];
+  late List<OneCardHolder> holders = [
+    OneCardHolder(
+      idcode: 0,
+      active: oneActiveList[0],
+      onChanged: _handleChanged,
+    ),
+    OneCardHolder(
+      idcode: 1,
+      active: oneActiveList[1],
+      onChanged: _handleChanged,
+    ),
+    OneCardHolder(
+      idcode: 2,
+      active: oneActiveList[2],
+      onChanged: _handleChanged,
+    ),
+  ];
+  late BonusHolder bonusHolder = BonusHolder(
+    active: bonusActive,
+    onChanged: _handleChanged,
+  );
+  late List<CardBase> targetholders = [
     const CardEmpty(),
     const CardEmpty(),
     const CardEmpty(),
   ];
 
   void update() {
-    print("updating");
     List<int> shapesShowing = [0, 0, 0];
     for (var i in decks) {
       if (i.lastCard().typeCode == 2) {
@@ -57,9 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
-    print(shapesShowing);
-
-    print(shapesShowing);
     for (var i = 0; i < 3; i++) {
       if (shapesShowing[i] == 4) {
         for (var j in decks) {
@@ -76,11 +217,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  BonusHolder bonusHolder = BonusHolder();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapUp: (details) {
+      onTap: () {
         update();
       },
       child: Container(
@@ -132,17 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          decks = resetGame();
-                          holders = [
-                            OneCardHolder(idcode: 0),
-                            OneCardHolder(idcode: 0),
-                            OneCardHolder(idcode: 0),
-                          ];
-                          targetholders = [
-                            const CardEmpty(),
-                            const CardEmpty(),
-                            const CardEmpty(),
-                          ];
+                          resetGame();
                         });
                       },
                       icon: const Icon(
@@ -160,31 +290,76 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
 
-List<CardHolder> resetGame() {
-  List<CardHolder> result = [
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-    CardHolder(),
-  ];
+  void resetGame() {
+    decks = [
+      CardHolder(
+        active: holderActiveList[0],
+        onChanged: _handleHolderChanged0,
+      ),
+      CardHolder(
+        active: holderActiveList[1],
+        onChanged: _handleHolderChanged1,
+      ),
+      CardHolder(
+        active: holderActiveList[2],
+        onChanged: _handleHolderChanged2,
+      ),
+      CardHolder(
+        active: holderActiveList[3],
+        onChanged: _handleHolderChanged3,
+      ),
+      CardHolder(
+        active: holderActiveList[4],
+        onChanged: _handleHolderChanged4,
+      ),
+      CardHolder(
+        active: holderActiveList[5],
+        onChanged: _handleHolderChanged5,
+      ),
+      CardHolder(
+        active: holderActiveList[6],
+        onChanged: _handleHolderChanged6,
+      ),
+      CardHolder(
+        active: holderActiveList[7],
+        onChanged: _handleHolderChanged7,
+      ),
+    ];
+    holders = [
+      OneCardHolder(
+        idcode: 0,
+        active: oneActiveList[0],
+        onChanged: _handleOneHolderChanged0,
+      ),
+      OneCardHolder(
+        idcode: 1,
+        active: oneActiveList[1],
+        onChanged: _handleOneHolderChanged1,
+      ),
+      OneCardHolder(
+        idcode: 2,
+        active: oneActiveList[2],
+        onChanged: _handleOneHolderChanged2,
+      ),
+    ];
+    targetholders = [
+      const CardEmpty(),
+      const CardEmpty(),
+      const CardEmpty(),
+    ];
 
-  var newdeck = fullDeckMixed();
-  var cnt = 0;
-  for (var card in newdeck) {
-    result[cnt].setCard([card]);
-    cnt += 1;
-    if (cnt == 8) {
-      cnt -= 8;
+    var newdeck = fullDeckMixed();
+    var cnt = 0;
+    for (var card in newdeck) {
+      decks[cnt].setCard([card]);
+      cnt += 1;
+      if (cnt == 8) {
+        cnt -= 8;
+      }
+    }
+    for (var i in decks) {
+      i.setupAttatched();
     }
   }
-  for (var i in result) {
-    i.setupAttatched();
-  }
-  return result;
 }

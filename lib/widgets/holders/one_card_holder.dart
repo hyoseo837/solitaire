@@ -10,6 +10,8 @@ class OneCardHolder extends CardHolder {
 
   OneCardHolder({
     super.key,
+    super.active = false,
+    required super.onChanged,
     required this.idcode,
   });
 
@@ -28,19 +30,15 @@ class OneCardHolder extends CardHolder {
       CardShape tmp = cardList.last as CardShape;
       if (tmp.shapeId == shapeId) {
         removeCard(1);
+        handleTap();
       }
     }
   }
 
   @override
-  State<CardHolder> createState() => _OneCardHolderState();
-}
-
-class _OneCardHolderState extends CardHolderState<OneCardHolder> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-      child: widget.cardList.isEmpty
+      child: cardList.isEmpty
           ? DragTarget<List<CardUnit>>(
               builder: ((BuildContext context, List<dynamic> candidateData,
                   List<dynamic> rejectedData) {
@@ -54,20 +52,18 @@ class _OneCardHolderState extends CardHolderState<OneCardHolder> {
                 }
               },
               onAccept: ((data) {
-                setState(() {
-                  widget.addCard(data);
-                });
+                addCard(data);
+                handleTap();
               }),
             )
           : Draggable(
-              data: widget.cardList.sublist(0),
-              feedback: widget.cardList[0],
+              data: cardList.sublist(0),
+              feedback: cardList[0],
               childWhenDragging: const CardEmpty(),
-              child: widget.cardList[0],
+              child: cardList[0],
               onDragCompleted: () {
-                setState(() {
-                  widget.removeCard(1);
-                });
+                removeCard(1);
+                handleTap();
               },
             ),
     );
