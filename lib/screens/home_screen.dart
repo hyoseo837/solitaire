@@ -50,133 +50,26 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _handleHolderChanged0(bool newValue) {
-    setState(() {
-      holderActiveList[0] = newValue;
-    });
-  }
-
-  void _handleHolderChanged1(bool newValue) {
-    setState(() {
-      holderActiveList[1] = newValue;
-    });
-  }
-
-  void _handleHolderChanged2(bool newValue) {
-    setState(() {
-      holderActiveList[2] = newValue;
-    });
-  }
-
-  void _handleHolderChanged3(bool newValue) {
-    setState(() {
-      holderActiveList[3] = newValue;
-    });
-  }
-
-  void _handleHolderChanged4(bool newValue) {
-    setState(() {
-      holderActiveList[4] = newValue;
-    });
-  }
-
-  void _handleHolderChanged5(bool newValue) {
-    setState(() {
-      holderActiveList[5] = newValue;
-    });
-  }
-
-  void _handleHolderChanged6(bool newValue) {
-    setState(() {
-      holderActiveList[6] = newValue;
-    });
-  }
-
-  void _handleHolderChanged7(bool newValue) {
-    setState(() {
-      holderActiveList[7] = newValue;
-    });
-  }
-
-  void _handleOneHolderChanged0(bool newValue) {
-    setState(() {
-      oneActiveList[0] = newValue;
-    });
-  }
-
-  void _handleOneHolderChanged1(bool newValue) {
-    setState(() {
-      oneActiveList[1] = newValue;
-    });
-  }
-
-  void _handleOneHolderChanged2(bool newValue) {
-    setState(() {
-      oneActiveList[2] = newValue;
-    });
-  }
-
-  void _handleBonusHolderChanged(bool newValue) {
-    setState(() {
-      bonusActive = newValue;
-    });
-  }
-
   late List<CardHolder> decks = [
-    CardHolder(
-      active: holderActiveList[0],
-      onChanged: _handleChanged,
-    ),
-    CardHolder(
-      active: holderActiveList[1],
-      onChanged: _handleChanged,
-    ),
-    CardHolder(
-      active: holderActiveList[2],
-      onChanged: _handleChanged,
-    ),
-    CardHolder(
-      active: holderActiveList[3],
-      onChanged: _handleChanged,
-    ),
-    CardHolder(
-      active: holderActiveList[4],
-      onChanged: _handleChanged,
-    ),
-    CardHolder(
-      active: holderActiveList[5],
-      onChanged: _handleChanged,
-    ),
-    CardHolder(
-      active: holderActiveList[6],
-      onChanged: _handleChanged,
-    ),
-    CardHolder(
-      active: holderActiveList[7],
-      onChanged: _handleChanged,
-    ),
+    CardHolder(active: holderActiveList[0], onChanged: _handleChanged),
+    CardHolder(active: holderActiveList[1], onChanged: _handleChanged),
+    CardHolder(active: holderActiveList[2], onChanged: _handleChanged),
+    CardHolder(active: holderActiveList[3], onChanged: _handleChanged),
+    CardHolder(active: holderActiveList[4], onChanged: _handleChanged),
+    CardHolder(active: holderActiveList[5], onChanged: _handleChanged),
+    CardHolder(active: holderActiveList[6], onChanged: _handleChanged),
+    CardHolder(active: holderActiveList[7], onChanged: _handleChanged),
   ];
   late List<OneCardHolder> holders = [
     OneCardHolder(
-      idcode: 0,
-      active: oneActiveList[0],
-      onChanged: _handleChanged,
-    ),
+        idcode: 0, active: oneActiveList[0], onChanged: _handleChanged),
     OneCardHolder(
-      idcode: 1,
-      active: oneActiveList[1],
-      onChanged: _handleChanged,
-    ),
+        idcode: 1, active: oneActiveList[1], onChanged: _handleChanged),
     OneCardHolder(
-      idcode: 2,
-      active: oneActiveList[2],
-      onChanged: _handleChanged,
-    ),
+        idcode: 2, active: oneActiveList[2], onChanged: _handleChanged),
   ];
-  late BonusHolder bonusHolder = BonusHolder(
-    active: bonusActive,
-    onChanged: _handleChanged,
-  );
+  late BonusHolder bonusHolder =
+      BonusHolder(active: bonusActive, onChanged: _handleChanged);
   late List<CardBase> targetholders = [
     const CardEmpty(),
     const CardEmpty(),
@@ -293,56 +186,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void resetGame() {
     decks = [
-      CardHolder(
-        active: holderActiveList[0],
-        onChanged: _handleHolderChanged0,
-      ),
-      CardHolder(
-        active: holderActiveList[1],
-        onChanged: _handleHolderChanged1,
-      ),
-      CardHolder(
-        active: holderActiveList[2],
-        onChanged: _handleHolderChanged2,
-      ),
-      CardHolder(
-        active: holderActiveList[3],
-        onChanged: _handleHolderChanged3,
-      ),
-      CardHolder(
-        active: holderActiveList[4],
-        onChanged: _handleHolderChanged4,
-      ),
-      CardHolder(
-        active: holderActiveList[5],
-        onChanged: _handleHolderChanged5,
-      ),
-      CardHolder(
-        active: holderActiveList[6],
-        onChanged: _handleHolderChanged6,
-      ),
-      CardHolder(
-        active: holderActiveList[7],
-        onChanged: _handleHolderChanged7,
-      ),
+      CardHolder(active: holderActiveList[0], onChanged: _handleChanged),
+      CardHolder(active: holderActiveList[1], onChanged: _handleChanged),
+      CardHolder(active: holderActiveList[2], onChanged: _handleChanged),
+      CardHolder(active: holderActiveList[3], onChanged: _handleChanged),
+      CardHolder(active: holderActiveList[4], onChanged: _handleChanged),
+      CardHolder(active: holderActiveList[5], onChanged: _handleChanged),
+      CardHolder(active: holderActiveList[6], onChanged: _handleChanged),
+      CardHolder(active: holderActiveList[7], onChanged: _handleChanged),
     ];
     holders = [
       OneCardHolder(
-        idcode: 0,
-        active: oneActiveList[0],
-        onChanged: _handleOneHolderChanged0,
-      ),
+          idcode: 0, active: oneActiveList[0], onChanged: _handleChanged),
       OneCardHolder(
-        idcode: 1,
-        active: oneActiveList[1],
-        onChanged: _handleOneHolderChanged1,
-      ),
+          idcode: 1, active: oneActiveList[1], onChanged: _handleChanged),
       OneCardHolder(
-        idcode: 2,
-        active: oneActiveList[2],
-        onChanged: _handleOneHolderChanged2,
-      ),
+          idcode: 2, active: oneActiveList[2], onChanged: _handleChanged),
     ];
+    bonusHolder = BonusHolder(active: bonusActive, onChanged: _handleChanged);
     targetholders = [
       const CardEmpty(),
       const CardEmpty(),
