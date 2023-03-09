@@ -17,48 +17,44 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<bool> holderActiveList = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
+  List<List<int>> holderList = [
+    [-1],
+    [-1],
+    [-1],
+    [-1],
+    [-1],
+    [-1],
+    [-1],
+    [-1]
   ];
-  List<bool> oneActiveList = [
-    false,
-    false,
-    false,
-  ];
-  bool bonusActive = false;
+  List<int> oneHolderList = [-1, -1, -1];
+  List<int> bonusHolderList = [-1];
 
-  void _handleChanged(bool yes) {
-    for (var i in holderActiveList) {
+  void _handleChanged(int type, int row, List<int> newdata) {
+    if (type == 0) {
       setState(() {
-        i != i;
+        holderList[row] = newdata;
+      });
+    } else if (type == 1) {
+      setState(() {
+        oneHolderList = newdata;
+      });
+    } else if (type == 2) {
+      setState(() {
+        bonusHolderList = newdata;
       });
     }
-    for (var i in oneActiveList) {
-      setState(() {
-        i != i;
-      });
-    }
-    setState(() {
-      bonusActive != bonusActive;
-    });
   }
 
   late List<CardHolder> decks = [
-    CardHolder(active: holderActiveList[0], onChanged: _handleChanged),
-    CardHolder(active: holderActiveList[1], onChanged: _handleChanged),
-    CardHolder(active: holderActiveList[2], onChanged: _handleChanged),
-    CardHolder(active: holderActiveList[3], onChanged: _handleChanged),
-    CardHolder(active: holderActiveList[4], onChanged: _handleChanged),
-    CardHolder(active: holderActiveList[5], onChanged: _handleChanged),
-    CardHolder(active: holderActiveList[6], onChanged: _handleChanged),
-    CardHolder(active: holderActiveList[7], onChanged: _handleChanged),
+    CardHolder(active: holderList[0], onChanged: _handleChanged),
+    CardHolder(active: holderList[1], onChanged: _handleChanged),
+    CardHolder(active: holderList[2], onChanged: _handleChanged),
+    CardHolder(active: holderList[3], onChanged: _handleChanged),
+    CardHolder(active: holderList[4], onChanged: _handleChanged),
+    CardHolder(active: holderList[5], onChanged: _handleChanged),
+    CardHolder(active: holderList[6], onChanged: _handleChanged),
+    CardHolder(active: holderList[7], onChanged: _handleChanged),
   ];
   late List<OneCardHolder> holders = [
     OneCardHolder(

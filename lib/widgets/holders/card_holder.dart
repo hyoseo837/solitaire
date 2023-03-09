@@ -9,13 +9,13 @@ import '../cards/card_unit.dart';
 class CardHolder extends StatelessWidget {
   List<CardUnit> cardList = [];
   int attatchedCards = 0;
-  bool active;
-  final ValueChanged<bool> onChanged;
+  List<int> active;
+  final Function(int, int, List<int>) onChanged;
 
-  CardHolder({super.key, this.active = false, required this.onChanged});
+  CardHolder({super.key, required this.active, required this.onChanged});
 
-  void handleTap() {
-    onChanged(!active);
+  void handleTap(newdata) {
+    onChanged(newdata);
   }
 
   CardUnit lastCard() {
@@ -108,7 +108,7 @@ class CardHolder extends StatelessWidget {
             },
             onAccept: (List<CardUnit> data) {
               addCard(data);
-              handleTap();
+              handleTap(cardList);
             },
           );
   }
@@ -128,7 +128,7 @@ class CardHolder extends StatelessWidget {
                       child: cardList[i],
                       onDragCompleted: () {
                         removeCard(cardList.length - i);
-                        handleTap();
+                        handleTap(cardList);
                       },
                     )
                   : cardList[i])
