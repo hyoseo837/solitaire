@@ -27,45 +27,47 @@ class _HomeScreenState extends State<HomeScreen> {
     [-1],
     [-1]
   ];
-  List<int> oneHolderList = [-1, -1, -1];
+  List<List<int>> oneHolderList = [
+    [-1],
+    [-1],
+    [-1]
+  ];
   List<int> bonusHolderList = [-1];
 
   void _handleChanged(int type, int row, List<int> newdata) {
     if (type == 0) {
       setState(() {
         holderList[row] = newdata;
+        print("number holder, $row");
       });
     } else if (type == 1) {
       setState(() {
-        oneHolderList = newdata;
+        oneHolderList[row] = newdata;
+        print("one holder, $row");
       });
     } else if (type == 2) {
       setState(() {
         bonusHolderList = newdata;
+        print("bonus holder, $row");
       });
     }
   }
 
   late List<CardHolder> decks = [
-    CardHolder(active: holderList[0], onChanged: _handleChanged),
-    CardHolder(active: holderList[1], onChanged: _handleChanged),
-    CardHolder(active: holderList[2], onChanged: _handleChanged),
-    CardHolder(active: holderList[3], onChanged: _handleChanged),
-    CardHolder(active: holderList[4], onChanged: _handleChanged),
-    CardHolder(active: holderList[5], onChanged: _handleChanged),
-    CardHolder(active: holderList[6], onChanged: _handleChanged),
-    CardHolder(active: holderList[7], onChanged: _handleChanged),
+    for (var i = 0; i < 8; i++)
+      CardHolder(
+        active: holderList[i],
+        onChanged: _handleChanged,
+        holderRow: i,
+      )
   ];
   late List<OneCardHolder> holders = [
-    OneCardHolder(
-        idcode: 0, active: oneActiveList[0], onChanged: _handleChanged),
-    OneCardHolder(
-        idcode: 1, active: oneActiveList[1], onChanged: _handleChanged),
-    OneCardHolder(
-        idcode: 2, active: oneActiveList[2], onChanged: _handleChanged),
+    for (var i = 0; i < 3; i++)
+      OneCardHolder(
+          holderRow: i, active: oneHolderList[i], onChanged: _handleChanged),
   ];
   late BonusHolder bonusHolder =
-      BonusHolder(active: bonusActive, onChanged: _handleChanged);
+      BonusHolder(active: bonusHolderList, onChanged: _handleChanged);
   late List<CardBase> targetholders = [
     const CardEmpty(),
     const CardEmpty(),
@@ -182,24 +184,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void resetGame() {
     decks = [
-      CardHolder(active: holderActiveList[0], onChanged: _handleChanged),
-      CardHolder(active: holderActiveList[1], onChanged: _handleChanged),
-      CardHolder(active: holderActiveList[2], onChanged: _handleChanged),
-      CardHolder(active: holderActiveList[3], onChanged: _handleChanged),
-      CardHolder(active: holderActiveList[4], onChanged: _handleChanged),
-      CardHolder(active: holderActiveList[5], onChanged: _handleChanged),
-      CardHolder(active: holderActiveList[6], onChanged: _handleChanged),
-      CardHolder(active: holderActiveList[7], onChanged: _handleChanged),
+      for (var i = 0; i < 8; i++)
+        CardHolder(
+          active: holderList[i],
+          onChanged: _handleChanged,
+          holderRow: i,
+        )
     ];
     holders = [
-      OneCardHolder(
-          idcode: 0, active: oneActiveList[0], onChanged: _handleChanged),
-      OneCardHolder(
-          idcode: 1, active: oneActiveList[1], onChanged: _handleChanged),
-      OneCardHolder(
-          idcode: 2, active: oneActiveList[2], onChanged: _handleChanged),
+      for (var i = 0; i < 3; i++)
+        OneCardHolder(
+            holderRow: i, active: oneHolderList[i], onChanged: _handleChanged),
     ];
-    bonusHolder = BonusHolder(active: bonusActive, onChanged: _handleChanged);
+    bonusHolder =
+        BonusHolder(active: bonusHolderList, onChanged: _handleChanged);
     targetholders = [
       const CardEmpty(),
       const CardEmpty(),

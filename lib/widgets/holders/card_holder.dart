@@ -10,12 +10,26 @@ class CardHolder extends StatelessWidget {
   List<CardUnit> cardList = [];
   int attatchedCards = 0;
   List<int> active;
+  int holderType = 1;
+  int holderRow;
   final Function(int, int, List<int>) onChanged;
 
-  CardHolder({super.key, required this.active, required this.onChanged});
+  CardHolder(
+      {super.key,
+      required this.active,
+      required this.onChanged,
+      required this.holderRow});
 
-  void handleTap(newdata) {
-    onChanged(newdata);
+  void handleTap(List<int> newdata) {
+    onChanged(holderType, holderRow, newdata);
+  }
+
+  List<int> cardsInInt() {
+    List<int> result = [];
+    for (var i in cardList) {
+      result.add(i.idCode);
+    }
+    return result;
   }
 
   CardUnit lastCard() {
@@ -108,7 +122,7 @@ class CardHolder extends StatelessWidget {
             },
             onAccept: (List<CardUnit> data) {
               addCard(data);
-              handleTap(cardList);
+              handleTap(cardsInInt());
             },
           );
   }
@@ -128,7 +142,7 @@ class CardHolder extends StatelessWidget {
                       child: cardList[i],
                       onDragCompleted: () {
                         removeCard(cardList.length - i);
-                        handleTap(cardList);
+                        handleTap(cardsInInt());
                       },
                     )
                   : cardList[i])

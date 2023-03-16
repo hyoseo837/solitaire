@@ -6,14 +6,17 @@ import '../cards/card_shape.dart';
 import '../cards/card_unit.dart';
 
 class OneCardHolder extends CardHolder {
-  final int idcode;
+  int newholderType = 2;
+  OneCardHolder(
+      {super.key,
+      required super.active,
+      required super.onChanged,
+      required super.holderRow});
 
-  OneCardHolder({
-    super.key,
-    super.active = false,
-    required super.onChanged,
-    required this.idcode,
-  });
+  @override
+  void handleTap(List<int> newdata) {
+    onChanged(newholderType, holderRow, newdata);
+  }
 
   bool isEmpty() {
     return super.cardList.isEmpty;
@@ -30,7 +33,7 @@ class OneCardHolder extends CardHolder {
       CardShape tmp = cardList.last as CardShape;
       if (tmp.shapeId == shapeId) {
         removeCard(1);
-        handleTap();
+        handleTap(cardsInInt());
       }
     }
   }
@@ -53,7 +56,7 @@ class OneCardHolder extends CardHolder {
               },
               onAccept: ((data) {
                 addCard(data);
-                handleTap();
+                handleTap(cardsInInt());
               }),
             )
           : Draggable(
@@ -63,7 +66,7 @@ class OneCardHolder extends CardHolder {
               child: cardList[0],
               onDragCompleted: () {
                 removeCard(1);
-                handleTap();
+                handleTap(cardsInInt());
               },
             ),
     );
