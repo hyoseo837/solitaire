@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:solitaire/widgets/cards/card_empty.dart';
-import 'package:solitaire/widgets/cards/card_number.dart';
-import 'package:solitaire/widgets/cards/card_shape.dart';
-import 'package:solitaire/widgets/cards/return%20design/card_function.dart';
+import 'package:solitaire/widgets/cards/card_function.dart';
 
-import '../cards/card_unit.dart';
+import '../cards/card_column.dart';
 
 class CardHolder extends StatelessWidget {
-  List<CardUnit> cardList = [];
   int attatchedCards = 0;
   List<int> active;
   int holderType = 1;
@@ -24,105 +20,90 @@ class CardHolder extends StatelessWidget {
     onChanged(holderType, holderRow, newdata);
   }
 
-  List<int> cardsInInt() {
-    List<int> result = [];
-    for (var i in cardList) {
-      result.add(i.idCode);
-    }
-    return result;
-  }
-
-  CardUnit lastCard() {
-    return cardList.last;
-  }
-
   void gatherShape(int shapeId) {
-    if (cardList.last.typeCode == 2) {
-      CardShape tmp = cardList.last as CardShape;
-      if (tmp.shapeId == shapeId) {
+    if (getIdType(active.last) == 2) {
+      if (getIdDetail(active.last)["shapeIndex"] == shapeId) {
         removeCard(1);
       }
     }
   }
 
-  void addCard(List<CardUnit> value) {
+  void addCard(List<int> value) {
     for (var i in value) {
-      cardList.add(i);
+      active.add(i);
       attatchedCards += 1;
     }
   }
 
-  void setCard(List<CardUnit> value) {
+  void setCard(List<int> value) {
     for (var i in value) {
-      cardList.add(i);
+      active.add(i);
     }
   }
 
   void removeCard(int n) {
-    cardList.removeRange(cardList.length - n, cardList.length);
+    active.removeRange(active.length - n, active.length);
     attatchedCards -= n;
-    if (attatchedCards == 0 && cardList.isNotEmpty) {
+    if (attatchedCards == 0 && active.isNotEmpty) {
       attatchedCards = 1;
     }
     setupAttatched();
   }
 
   void setupAttatched() {
-    late CardNumber lastnum =
-        const CardNumber(idCode: 0, number: 0, colorIndex: 0);
-    for (var i in cardList) {
-      if (i.typeCode != 1) {
+    int lastnum = 0;
+    for (var i in active) {
+      if (getIdType(i) != 1) {
         attatchedCards = 1;
       } else {
-        CardNumber tmp = i as CardNumber;
-        if (lastnum.typeCode != 1) {
+        if (getIdType(lastnum) != 1) {
           attatchedCards = 1;
         } else {
-          if (lastnum.number - 1 == tmp.number &&
-              lastnum.colorIndex != tmp.colorIndex) {
+          if (getIdDetail(lastnum)["number"] - 1 == getIdDetail(i)["number"] &&
+              getIdDetail(lastnum)["colorIndex"] !=
+                  getIdDetail(i)["colorIndex"]) {
             attatchedCards += 1;
           } else {
             attatchedCards = 1;
           }
         }
-        lastnum = tmp;
+        lastnum = i;
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return cardList.isEmpty
-        ? const CardEmpty()
-        : DragTarget<List<CardUnit>>(
+    return active.isEmpty
+        ? generateCard(-1)
+        : DragTarget<List<int>>(
             builder: ((BuildContext context, List<dynamic> candidateData,
                 List<dynamic> rejectedData) {
               return holderStack();
             }),
             onWillAccept: (data) {
-              var dataFirstCard = data?.first;
-              var holderLastCard = cardList.last;
-              if (dataFirstCard?.typeCode != 1 ||
-                  holderLastCard.typeCode != 1) {
+              var dataFirstId = data?.first;
+              var holderLastId = active.last;
+              if (getIdType(dataFirstId!) != 1 ||
+                  getIdType(holderLastId) != 1) {
                 // print("wrong type");
                 return false;
               }
-              CardNumber? dataFirstnumCard = data?.cast<CardNumber>().first;
-              CardNumber holderLastnumCard = cardList.cast<CardNumber>().last;
-              if (dataFirstnumCard?.colorIndex ==
-                  holderLastnumCard.colorIndex) {
+              if (getIdDetail(dataFirstId)["colorIndex"] ==
+                  getIdDetail(holderLastId)["colorIndex"]) {
                 // print("wrong color");
                 return false;
               }
-              if (dataFirstnumCard!.number + 1 != holderLastnumCard.number) {
+              if (getIdDetail(dataFirstId)["number"] + 1 !=
+                  getIdDetail(holderLastId)["number"]) {
                 // print("wrong number");
                 return false;
               }
               return true;
             },
-            onAccept: (List<CardUnit> data) {
+            onAccept: (List<int> data) {
               addCard(data);
-              handleTap(cardsInInt());
+              handleTap(active);
             },
           );
   }
@@ -134,20 +115,18 @@ class CardHolder extends StatelessWidget {
         for (var i = 0; i < active.length; i++)
           Transform.translate(
               offset: Offset(0, i * 20),
-              child:
-                  // i >= cardList.length - attatchedCards
-                  //     ? Draggable(
-                  //         data: cardList.sublist(i),
-                  //         feedback: CardColumn(cards: cardList.sublist(i)),
-                  //         childWhenDragging: Container(),
-                  //         child: cardList[i],
-                  //         onDragCompleted: () {
-                  //           removeCard(cardList.length - i);
-                  //           handleTap(cardsInInt());
-                  //         },
-                  //       )
-                  // :
-                  generateCard(active[i]))
+              child: i >= active.length - attatchedCards
+                  ? Draggable(
+                      data: active.sublist(i),
+                      feedback: generateCardColumn(active.sublist(i)),
+                      childWhenDragging: Container(),
+                      child: generateCard(active[i]),
+                      onDragCompleted: () {
+                        removeCard(active.length - i);
+                        handleTap(active);
+                      },
+                    )
+                  : generateCard(active[i]))
       ],
     );
   }

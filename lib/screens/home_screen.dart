@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:solitaire/functions/full_deck.dart';
-import 'package:solitaire/widgets/cards/card_base.dart';
-import 'package:solitaire/widgets/cards/card_shape.dart';
 import 'package:solitaire/widgets/holders/card_holder.dart';
 import 'package:solitaire/widgets/holders/one_card_holder.dart';
 
 import '../functions/constants.dart';
-import '../widgets/cards/card_empty.dart';
 import '../widgets/holders/bounus_holder.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,17 +32,17 @@ class _HomeScreenState extends State<HomeScreen> {
   List<int> bonusHolderList = [-1];
 
   void _handleChanged(int type, int row, List<int> newdata) {
-    if (type == 0) {
+    if (type == 1) {
       setState(() {
         holderList[row] = newdata;
         print("number holder, $row");
       });
-    } else if (type == 1) {
+    } else if (type == 2) {
       setState(() {
         oneHolderList[row] = newdata;
         print("one holder, $row");
       });
-    } else if (type == 2) {
+    } else if (type == 3) {
       setState(() {
         bonusHolderList = newdata;
         print("bonus holder, $row");
@@ -68,51 +65,49 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   late BonusHolder bonusHolder =
       BonusHolder(active: bonusHolderList, onChanged: _handleChanged);
-  late List<CardBase> targetholders = [
-    const CardEmpty(),
-    const CardEmpty(),
-    const CardEmpty(),
-  ];
 
-  void update() {
-    List<int> shapesShowing = [0, 0, 0];
-    for (var i in decks) {
-      if (i.lastCard().typeCode == 2) {
-        CardShape tmp = i.lastCard() as CardShape;
-        shapesShowing[tmp.shapeId] += 1;
-      }
-    }
-    for (var i in holders) {
-      if (i.isEmpty()) {
-        continue;
-      } else {
-        if (i.lastCard().typeCode == 2) {
-          CardShape tmp = i.lastCard() as CardShape;
-          shapesShowing[tmp.shapeId] += 1;
-        }
-      }
-    }
-    for (var i = 0; i < 3; i++) {
-      if (shapesShowing[i] == 4) {
-        for (var j in decks) {
-          setState(() {
-            j.gatherShape(i);
-          });
-        }
-        for (var j in holders) {
-          setState(() {
-            j.gatherShape(i);
-          });
-        }
-      }
-    }
-  }
+  // void update() {
+  //   List<int> shapesShowing = [0, 0, 0];
+  //   for (var i in decks) {
+  //     if (i.lastCard().typeCode == 2) {
+  //       CardShape tmp = i.lastCard() as CardShape;
+  //       shapesShowing[tmp.shapeId] += 1;
+  //     }
+  //   }
+  //   for (var i in holders) {
+  //     if (i.isEmpty()) {
+  //       continue;
+  //     } else {
+  //       if (i.lastCard().typeCode == 2) {
+  //         CardShape tmp = i.lastCard() as CardShape;
+  //         shapesShowing[tmp.shapeId] += 1;
+  //       }
+  //     }
+  //   }
+  //   for (var i = 0; i < 3; i++) {
+  //     if (shapesShowing[i] == 4) {
+  //       for (var j in decks) {
+  //         setState(() {
+  //           j.gatherShape(i);
+  //         });
+  //       }
+  //       for (var j in holders) {
+  //         setState(() {
+  //           j.gatherShape(i);
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        update();
+        print(oneHolderList);
+        setState(() {
+          oneHolderList = oneHolderList;
+        });
       },
       child: Container(
         decoration: const BoxDecoration(color: Colors.green),
@@ -136,9 +131,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       const SizedBox(width: 30),
-                      const CardEmpty(),
+                      bonusHolder,
                       const SizedBox(width: 30),
-                      for (var targetholder in targetholders) targetholder
+                      // for (var targetholder in targetholders) targetholder
+                      const SizedBox(width: 30),
+                      const SizedBox(width: 30),
+                      const SizedBox(width: 30),
                     ]),
               ),
             ),
@@ -184,6 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void resetGame() {
     holderList = [[], [], [], [], [], [], [], []];
+    oneHolderList = [
+      [-1],
+      [-1],
+      [-1]
+    ];
     decks = [
       for (var i = 0; i < 8; i++)
         CardHolder(
@@ -199,17 +202,12 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     bonusHolder =
         BonusHolder(active: bonusHolderList, onChanged: _handleChanged);
-    targetholders = [
-      const CardEmpty(),
-      const CardEmpty(),
-      const CardEmpty(),
-    ];
+    // targetholders = [];
 
-    var newdeck = fullDeck();
+    var newdeck = fullDeckMixed();
     var cnt = 0;
     for (var card in newdeck) {
-      decks[cnt].setCard([card]);
-      holderList[cnt].add(card.idCode);
+      holderList[cnt].add(card);
       cnt += 1;
       if (cnt == 8) {
         cnt -= 8;

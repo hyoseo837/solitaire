@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:solitaire/widgets/cards/card_empty.dart';
+import 'package:solitaire/widgets/cards/card_function.dart';
 import 'package:solitaire/widgets/holders/card_holder.dart';
-
-import '../cards/card_shape.dart';
-import '../cards/card_unit.dart';
 
 class OneCardHolder extends CardHolder {
   int newholderType = 2;
@@ -19,54 +16,59 @@ class OneCardHolder extends CardHolder {
   }
 
   bool isEmpty() {
-    return super.cardList.isEmpty;
-  }
-
-  @override
-  CardUnit lastCard() {
-    return super.cardList.last;
+    return super.active.isEmpty;
   }
 
   @override
   void gatherShape(int shapeId) {
-    if (super.cardList.last.typeCode == 2) {
-      CardShape tmp = cardList.last as CardShape;
-      if (tmp.shapeId == shapeId) {
+    if (getIdType(super.active.last) == 2) {
+      if (getIdDetail(active.last)["shapeIndex"] == shapeId) {
         removeCard(1);
-        handleTap(cardsInInt());
+        handleTap(active);
       }
     }
   }
 
   @override
+  void addCard(List<int> value) {
+    active[0] = value[0];
+    print(active);
+    handleTap(active);
+  }
+
+  @override
+  void removeCard(int n) {
+    active[0] = -1;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      child: cardList.isEmpty
-          ? DragTarget<List<CardUnit>>(
+      child: active[0] == -1
+          ? DragTarget<List<int>>(
               builder: ((BuildContext context, List<dynamic> candidateData,
                   List<dynamic> rejectedData) {
-                return const CardEmpty();
+                return generateCard(-1);
               }),
               onWillAccept: (data) {
                 if (data?.length == 1) {
                   return true;
-                } else {
-                  return false;
                 }
+                return false;
               },
               onAccept: ((data) {
                 addCard(data);
-                handleTap(cardsInInt());
+                // handleTap(active);
               }),
             )
           : Draggable(
-              data: cardList.sublist(0),
-              feedback: cardList[0],
-              childWhenDragging: const CardEmpty(),
-              child: cardList[0],
+              data: active,
+              feedback: generateCard(active[0]),
+              childWhenDragging: generateCard(-1),
+              child: generateCard(active[0]),
               onDragCompleted: () {
                 removeCard(1);
-                handleTap(cardsInInt());
+                handleTap(active);
               },
             ),
     );
