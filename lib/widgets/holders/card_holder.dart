@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:solitaire/widgets/cards/card_column.dart';
 import 'package:solitaire/widgets/cards/card_empty.dart';
 import 'package:solitaire/widgets/cards/card_number.dart';
 import 'package:solitaire/widgets/cards/card_shape.dart';
+import 'package:solitaire/widgets/cards/return%20design/card_function.dart';
 
 import '../cards/card_unit.dart';
 
@@ -131,21 +131,23 @@ class CardHolder extends StatelessWidget {
     return Stack(
       children: [
         const SizedBox(height: 1000),
-        for (var i = 0; i < cardList.length; i++)
+        for (var i = 0; i < active.length; i++)
           Transform.translate(
               offset: Offset(0, i * 20),
-              child: i >= cardList.length - attatchedCards
-                  ? Draggable(
-                      data: cardList.sublist(i),
-                      feedback: CardColumn(cards: cardList.sublist(i)),
-                      childWhenDragging: Container(),
-                      child: cardList[i],
-                      onDragCompleted: () {
-                        removeCard(cardList.length - i);
-                        handleTap(cardsInInt());
-                      },
-                    )
-                  : cardList[i])
+              child:
+                  // i >= cardList.length - attatchedCards
+                  //     ? Draggable(
+                  //         data: cardList.sublist(i),
+                  //         feedback: CardColumn(cards: cardList.sublist(i)),
+                  //         childWhenDragging: Container(),
+                  //         child: cardList[i],
+                  //         onDragCompleted: () {
+                  //           removeCard(cardList.length - i);
+                  //           handleTap(cardsInInt());
+                  //         },
+                  //       )
+                  // :
+                  generateCard(active[i]))
       ],
     );
   }

@@ -183,6 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void resetGame() {
+    holderList = [[], [], [], [], [], [], [], []];
     decks = [
       for (var i = 0; i < 8; i++)
         CardHolder(
@@ -204,10 +205,11 @@ class _HomeScreenState extends State<HomeScreen> {
       const CardEmpty(),
     ];
 
-    var newdeck = fullDeckMixed();
+    var newdeck = fullDeck();
     var cnt = 0;
     for (var card in newdeck) {
       decks[cnt].setCard([card]);
+      holderList[cnt].add(card.idCode);
       cnt += 1;
       if (cnt == 8) {
         cnt -= 8;
